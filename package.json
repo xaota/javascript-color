@@ -1,0 +1,40 @@
+{
+  "name": "javascript-color",
+  "version": "1.0.0",
+  "description": "Методы для работы с цветом и его компонентами",
+  "main": "index.js",
+  "dependencies": {
+    "javascript-std-lib": "^1.0.0",
+    "javascript-algebra": "^1.0.1",
+    "javascript-canvas": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xaota/javascript-color.git"
+  },
+  "keywords": [
+    "color",
+    "math",
+    "canvas",
+    "rgb",
+    "hsl",
+    "css",
+    "hex",
+    "hsv",
+    "hsb",
+    "blending",
+    "light",
+    "saturate",
+    "luminance"
+  ],
+  "author": "https://github.com/xaota",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/xaota/javascript-color/issues"
+  },
+  "homepage": "https://github.com/xaota/javascript-color#readme"
+}
