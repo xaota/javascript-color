@@ -1,6 +1,6 @@
 {
   "name": "javascript-color",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Методы для работы с цветом и его компонентами",
   "main": "index.js",
   "dependencies": {
