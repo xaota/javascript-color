@@ -1,3 +1,10 @@
+[документация / wiki](//github.com/xaota/javascript-color/wiki)
+
+### Установка
+```bash
+$ npm install javascript-color
+```
+
 ### Использование
 ```javascript
 import Color from 'javascript-color';
