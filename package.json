@@ -1,14 +1,18 @@
 {
   "name": "javascript-color",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Методы для работы с цветом и его компонентами",
   "main": "index.js",
+  "type": "module",
   "dependencies": {
-    "javascript-std-lib": "^1.0.0",
-    "javascript-algebra": "^1.0.1",
-    "javascript-canvas": "^1.0.0"
+    "javascript-std-lib": "latest",
+    "javascript-algebra": "latest",
+    "javascript-canvas": "latest"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "babel-eslint": "^10.0.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

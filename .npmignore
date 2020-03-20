@@ -1,6 +1,10 @@
 .eslintrc
 .babelrc
 .vscode/
+.github/
 node_modules/
 
 .history/
+package-lock.json
+
+.DS_Store

@@ -10,9 +10,11 @@
   */
 
 /** @section @imports */
-  import {Num}    from '/javascript-std-lib/index.js';
-  import {Vector} from '/javascript-algebra/index.js';
-  import {Canvas} from '/javascript-canvas/index.js';
+  import Num    from 'javascript-std-lib/number.js';
+  import Vector from 'javascript-algebra/Vector.js';
+  import Canvas from 'javascript-canvas/Canvas.js';
+
+  import Blend from './library/Blend.js';
 
 /** @section data */
   const css = { // цвета CSS
@@ -742,47 +744,47 @@
 
   /** */
     static multiply(A, B) {
-      return Color.blend(BLEND.multiply, A, B);
+      return Color.blend(Blend.multiply, A, B);
     }
 
   /** */
     static screen(A, B) {
-      return Color.blend(BLEND.screen, A, B);
+      return Color.blend(Blend.screen, A, B);
     }
 
   /** */
     static overlay(A, B) {
-      return Color.blend(BLEND.overlay, A, B);
+      return Color.blend(Blend.overlay, A, B);
     }
 
   /** */
     static softlight(A, B) {
-      return Color.blend(BLEND.softlight, A, B);
+      return Color.blend(Blend.softlight, A, B);
     }
 
   /** */
     static hardlight(A, B) {
-      return Color.blend(BLEND.hardlight, A, B);
+      return Color.blend(Blend.hardlight, A, B);
     }
 
   /** */
     static difference(A, B) {
-      return Color.blend(BLEND.difference, A, B);
+      return Color.blend(Blend.difference, A, B);
     }
 
   /** */
     static exclusion(A, B) {
-      return Color.blend(BLEND.exclusion, A, B);
+      return Color.blend(Blend.exclusion, A, B);
     }
 
   /** */
     static average(A, B) {
-      return Color.blend(BLEND.average, A, B);
+      return Color.blend(Blend.average, A, B);
     }
 
   /** */
     static negation(A, B) {
-      return Color.blend(BLEND.negation, A, B);
+      return Color.blend(Blend.negation, A, B);
     }
 
   /** @subsection Создание цвета @static @method's */
@@ -1048,63 +1050,6 @@
   for (const color in css) Color[color] = Color.hex(css[color].slice(1), color);
 
 // #region [Private]
-const BLEND = { // Math.blend
-/** */
-  multiply(a, b) {
-    return a * b;
-  },
-
-/** */
-  screen(a, b) {
-    return a + b - a * b;
-  },
-
-/** */
-  overlay(a, b) {
-    a *= 2;
-    return a <= 1
-      ? BLEND.multiply(a, b)
-      : BLEND.screen(a - 1, b);
-  },
-
-/** */
-  softlight(a, b) {
-    let d = 1, e = a;
-    if (b > 0.5) {
-      e = 1;
-      d = a > 0.25
-        ? Math.sqrt(a)
-        : ((16 * a - 12) * a + 4) * a;
-    }
-    return a - (1 - 2 * b) * e * (d - a);
-  },
-
-/** */
-  hardlight(a, b) {
-    return BLEND.overlay(b, a);
-  },
-
-/** */
-  difference(a, b) {
-    return Math.abs(a - b);
-  },
-
-/** */
-  exclusion(a, b) {
-    return a + b - 2 * a * b;
-  },
-
-/** */
-  average(a, b) {
-    return (a + b) / 2;
-  },
-
-/** */
-  negation(a, b) {
-    return 1 - Math.abs(a + b - 1);
-  }
-}
-
 /** @subsection common.color */
 /** Перевод цветового тона в компоненты @rgb */
   function hue(p, q, h) {
