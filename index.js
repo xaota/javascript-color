@@ -718,9 +718,16 @@
       return new Color([r, g, b], alpha);
     }
 
-  /** */
-    static fade(A, B, percent) {
-      // @todo: (mix?)
+  /** color interpolation */
+    static fade(A = Color.white, B = Color.black, percent = 0) {
+      // interpolate
+      const total = 100, step = ~~(percent * 100);
+      const channel = (a, b) => b + (~~((a - b) / total) * step);
+      const r = channel(A.red, B.red);
+      const g = channel(A.green, B.green);
+      const b = channel(A.blue, B.blue);
+      const alpha = channel(A.alpha * 255, B.alpha * 255) / 255;
+      return new Color([r, g, b], alpha);
     }
 
   /** @subsection Наложение цветов */
