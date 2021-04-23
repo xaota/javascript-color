@@ -177,7 +177,7 @@
    */
     constructor(rgb, alpha = 1, value = undefined) {
       const [red, green, blue] = rgb;
-      Object.assign(this, {channel: {red, green, blue, alpha}, value});
+      Object.assign(this, { channel: { red, green, blue, alpha }, value });
     }
 
   /** Строковое представление цвета @debug
@@ -227,16 +227,16 @@
 
   /** */
     get RGB() {
-      const rgb = this.rgb, a = rgb.a;
+      const rgb = this.rgb; const a = rgb.a;
       const [r, g, b] = [rgb.r, rgb.g, rgb.b].map(c => Math.round(Number(c.toFixed(5)) * 255));
-      return {r, g, b, a};
+      return { r, g, b, a };
     }
 
   /** */
     get hex() {
       const rgb = this.RGB;
       const [r, g, b] = [rgb.r, rgb.g, rgb.b].map(c => c.toString(16));
-      return {r, g, b};
+      return { r, g, b };
     }
 
   /** */
@@ -252,7 +252,7 @@
       const rgb = this.RGB;
       const [r, g, b] = [rgb.r, rgb.g, rgb.b].map(c => c.toString(16));
       const a = Math.round(rgb.a * 255).toString(16);
-      return {r, g, b, a};
+      return { r, g, b, a };
     }
 
   /** */
@@ -271,12 +271,12 @@
 
   /** */
     get hsl() {
-      const rgba = this.rgb, [r,g,b,a] = [rgba.r, rgba.g, rgba.b, rgba.a];
-      const max = Math.max(r, g, b), min = Math.min(r, g, b);
-      const l = (max + min) / 2, d = max - min;
-      let h = 0, s = 0;
+      const rgba = this.rgb; const [r, g, b, a] = [rgba.r, rgba.g, rgba.b, rgba.a];
+      const max = Math.max(r, g, b); const min = Math.min(r, g, b);
+      const l = (max + min) / 2; const d = max - min;
+      let h = 0; let s = 0;
 
-      if (max === min) return {h, s, l, a};
+      if (max === min) return { h, s, l, a };
       switch (max) {
         case r: h = (g - b) / d + (g < b ? 6 : 0); break;
         case g: h = (b - r) / d + 2;               break;
@@ -286,7 +286,7 @@
       s = l > 0.5
         ? d / (2 - max - min)
         : d / (max + min);
-      return {h, s, l, a};
+      return { h, s, l, a };
     }
 
   /** */
@@ -299,18 +299,18 @@
 
   /** */
     get hsv() {
-      const rgba = this.rgb, [r,g,b,a] = [rgba.r, rgba.g, rgba.b, rgba.a];
-      const max = Math.max(r, g, b), min = Math.min(r, g, b);
-      const v = max, d = max - min, s = max === 0 ? 0 : d / max;
+      const rgba = this.rgb; const [r, g, b, a] = [rgba.r, rgba.g, rgba.b, rgba.a];
+      const max = Math.max(r, g, b); const min = Math.min(r, g, b);
+      const v = max; const d = max - min; const s = max === 0 ? 0 : d / max;
       let h = 0;
-      if (max === min) return {h, s, v, a}
+      if (max === min) return { h, s, v, a }
       switch (max) {
         case r: h = (g - b) / d + (g < b ? 6 : 0); break;
         case g: h = (b - r) / d + 2; break;
         case b: h = (r - g) / d + 4; break;
       }
       h = Math.round(h * 60);
-      return {h, s, v, a}
+      return { h, s, v, a }
     }
 
   /** */
@@ -323,7 +323,7 @@
 
   /** */
     get hsb() {
-      const hsv = this.hsv, brightness = hsv.v;
+      const hsv = this.hsv; const brightness = hsv.v;
       delete hsv.v;
       hsv.b = brightness;
       return hsv;
@@ -433,7 +433,7 @@
    * @return {float} [0..1]
    */
     get luminance() {
-      const rgb = this.rgb, [r, g, b] = [rgb.r, rgb.g, rgb.b];
+      const rgb = this.rgb; const [r, g, b] = [rgb.r, rgb.g, rgb.b];
       return luminance(r, g, b);
     }
 
@@ -639,8 +639,8 @@
    * @return {Color} итоговый цвет
    */
     inverse() { // negative
-      const c = this.rgb,
-          rgb = [c.r, c.g, c.b].map(e => 1 - e);
+      const c = this.rgb;
+          const rgb = [c.r, c.g, c.b].map(e => 1 - e);
       return new Color(rgb, c.a);
     }
 
@@ -648,9 +648,9 @@
    * @return {Color} итоговый цвет
    */
     INVERSE() { // negative
-      const c = this.rgb,
-          rgb = [c.r, c.g, c.b].map(e => 1 - e),
-            a = 1 - c.a;
+      const c = this.rgb;
+          const rgb = [c.r, c.g, c.b].map(e => 1 - e);
+            const a = 1 - c.a;
       return new Color(rgb, a);
     }
 
@@ -661,7 +661,7 @@
    */
     addition(color) {
       const channel = this.channel.map((c, i) => Num.clamp(c + color.channel[i]));
-      const rgb = channel.slice(0, 3), alpha = channel[3];
+      const rgb = channel.slice(0, 3); const alpha = channel[3];
       return new Color(rgb, alpha);
     }
 
@@ -707,21 +707,21 @@
    * @return {Color} итоговый цвет
    */
     static mix(A, B, weight = 0.5) {
-      const w = weight * 2 - 1,
-            a = A.alpha - B.alpha,
-            w1 = (((w * a == -1) ? w : (w + a) / (1 + w * a)) + 1) / 2.0,
-            w2 = 1 - w1,
-            r = w1 * A.red   + w2 * B.red,
-            g = w1 * A.green + w2 * B.green,
-            b = w1 * A.blue  + w2 * B.blue,
-            alpha = A.alpha * weight + B.alpha * (1 - weight);
+      const w = weight * 2 - 1;
+            const a = A.alpha - B.alpha;
+            const w1 = (((w * a == -1) ? w : (w + a) / (1 + w * a)) + 1) / 2.0;
+            const w2 = 1 - w1;
+            const r = w1 * A.red   + w2 * B.red;
+            const g = w1 * A.green + w2 * B.green;
+            const b = w1 * A.blue  + w2 * B.blue;
+            const alpha = A.alpha * weight + B.alpha * (1 - weight);
       return new Color([r, g, b], alpha);
     }
 
   /** color interpolation */
     static fade(A = Color.white, B = Color.black, percent = 0) {
       // interpolate
-      const total = 100, step = ~~(percent * 100);
+      const total = 100; const step = ~~(percent * 100);
       const channel = (a, b) => b + (~~((a - b) / total) * step);
       const r = channel(A.red, B.red);
       const g = channel(A.green, B.green);
@@ -730,19 +730,24 @@
       return new Color([r, g, b], alpha);
     }
 
+  /** */
+    static fadeHSL(A = Color.white, B = Color.black, percent = 0) {
+
+    }
+
   /** @subsection Наложение цветов */
     static blend(mode, A = Color.white, B = Color.black) {
-      var alphaA = A.alpha,
-          alphaB = B.alpha,
-          alpha = alphaB + alphaA * (1 - alphaB),
-          rgbA = A.float,
-          rgbB = B.float,
-          rgb = rgbA.map(blend);
+      const alphaA = A.alpha;
+          const alphaB = B.alpha;
+          const alpha = alphaB + alphaA * (1 - alphaB);
+          const rgbA = A.float;
+          const rgbB = B.float;
+          const rgb = rgbA.map(blend);
       return new Color(rgb, alpha);
 
     /** */
       function blend(a, i) {
-        const b = rgbB[i], r = mode(a, b);
+        const b = rgbB[i]; const r = mode(a, b);
         return alpha !== 0
           ? (alphaB * b + alphaA * (a - alphaB * (a + b - r))) / alpha
           : r;
@@ -805,62 +810,62 @@
     static ahex(argb, value) {
       if (argb.length === 4) argb = argb.split('').map(c => c + c).join('');
       argb = argb.match(/.{2}/g).map(c => parseInt(c, 16));
-      const rgb = argb.slice(1), alpha = argb[0] / 255;
+      const rgb = argb.slice(1); const alpha = argb[0] / 255;
       return Color.fromRGB(...rgb, alpha, value);
     }
 
   /** */
-    static rgb({r, g, b, a = 1}, value) {
+    static rgb({ r, g, b, a = 1 }, value) {
       return new Color([r, g, b], a, value);
     }
 
   /** */
     static RGB(rgba, value) {
       const [r, g, b] = [rgba.r, rgba.g, rgba.b].map(c => c / 255);
-      return Color.rgb({r, g, b, a: rgba.a}, value);
+      return Color.rgb({ r, g, b, a: rgba.a }, value);
     }
 
   /** */
-    static hsl({h, s, l, a = 1}, value) {
+    static hsl({ h, s, l, a = 1 }, value) {
       h = (h % 360) / 360;
       // s = Num.clamp(s);
       // l = Num.clamp(l);
       // a = Num.clamp(a);
       if (s === 0) return new Color([l, l, l], a); // achromatic
-      const q = l <= 0.5 ? l * (s + 1) : l + s - l * s,
-          p = l * 2 - q,
-          r = hue(p, q, h + 1 / 3),
-          g = hue(p, q, h),
-          b = hue(p, q, h - 1 / 3);
+      const q = l <= 0.5 ? l * (s + 1) : l + s - l * s;
+          const p = l * 2 - q;
+          const r = hue(p, q, h + 1 / 3);
+          const g = hue(p, q, h);
+          const b = hue(p, q, h - 1 / 3);
       return new Color([r, g, b], a, value);
     }
 
   /** */
     static HSL(hsla, value) {
-      hsla = Object.assign({}, hsla, {s: hsla.s / 100, l: hsla.l / 100});
+      hsla = Object.assign({}, hsla, { s: hsla.s / 100, l: hsla.l / 100 });
       return Color.hsl(hsla, value);
     }
 
   /** */
-    static hsv({h, s, v, a = 1}, value) {
+    static hsv({ h, s, v, a = 1 }, value) {
       h %= 360;
-      const i = Math.floor((h / 60) % 6),
-          f = (h / 60) - i,
-        vs = [
+      const i = Math.floor((h / 60) % 6);
+          const f = (h / 60) - i;
+        const vs = [
           v,
           v * (1 - s),
           v * (1 - f * s),
           v * (1 - (1 - f) * s)
-        ],
-      perm = [
+        ];
+      const perm = [
           [0, 3, 1],
           [2, 0, 1],
           [1, 0, 3],
           [1, 2, 0],
           [3, 1, 0],
           [0, 1, 2]
-        ],
-      rgb = [
+        ];
+      const rgb = [
         vs[perm[i][0]],
         vs[perm[i][1]],
         vs[perm[i][2]]
@@ -870,13 +875,13 @@
 
   /** */
     static HSV(hsva, value) {
-      hsva = Object.assign({}, hsva, {s: hsva.s / 100, v: hsva.v / 100});
+      hsva = Object.assign({}, hsva, { s: hsva.s / 100, v: hsva.v / 100 });
       return Color.hsv(hsva, value);
     }
 
   /** */
-    static hsb({h, s, b, a = 1}, value) {
-      return Color.hsv({h, s, v: b, a}, value);
+    static hsb({ h, s, b, a = 1 }, value) {
+      return Color.hsv({ h, s, v: b, a }, value);
     }
 
   /** */
@@ -887,7 +892,7 @@
 
   /** */
     static fromRGB(r, g, b, a, value) {
-      return Color.RGB({r, g, b, a}, value);
+      return Color.RGB({ r, g, b, a }, value);
     }
 
   /** */
@@ -906,23 +911,23 @@
 
   /** */
     static fromHSL(h, s, l, a, value) {
-      return Color.HSL({h, s, l, a}, value);
+      return Color.HSL({ h, s, l, a }, value);
     }
 
   /** */
     static fromHSV(h, s, v, a, value) {
-      return Color.HSV({h, s, v, a}, value);
+      return Color.HSV({ h, s, v, a }, value);
     }
 
   /** */
     static fromHSB(h, s, b, a, value) {
-      return Color.HSB({h, s, b, a}, value);
+      return Color.HSB({ h, s, b, a }, value);
     }
 
   /** @subssection Создание цвета из параметра @css */
     static cssRGB(color) { // rgb({byte}, {byte}, {byte}) или rgba({byte}, {byte}, {byte}, {percent})
       color = color.replace(/rgb|rgba|\(|\)\s+/gi, '').split(',').map(Number);
-      const r = color[0], g = color[1], b = color[2];
+      const r = color[0]; const g = color[1]; const b = color[2];
       const a = color.length === 4 ? color[3] : 1;
       return Color.fromRGB(r, g, b, a);
     }
@@ -940,7 +945,7 @@
   /** */
     static cssHSL(color) {
       color = color.replace(/hsl|hsla|\(|\)|\%|\s+/gi, '').split(',').map(Number);
-      const h = color[0], s = color[1], l = color[2];
+      const h = color[0]; const s = color[1]; const l = color[2];
       const a = color.length === 4 ? color[3] : 1;
       return Color.fromHSL(h, s, l, a);
     }
@@ -948,7 +953,7 @@
   /** */
     static cssHSV(color) {
       color = color.replace(/hsv|hsva|\(|\)|\%|\s+/gi, '').split(',').map(Number);
-      const h = color[0], s = color[1], v = color[2];
+      const h = color[0]; const s = color[1]; const v = color[2];
       const a = color.length === 4 ? color[3] : 1;
       return Color.fromHSV(h, s, v, a);
     }
@@ -956,7 +961,7 @@
   /** */
     static cssHSB(color) {
       color = color.replace(/hsb|hsba|\(|\)|\%|\s+/gi, '').split(',').map(Number);
-      const h = color[0], s = color[1], b = color[2];
+      const h = color[0]; const s = color[1]; const b = color[2];
       const a = color.length === 4 ? color[3] : 1;
       return Color.fromHSB(h, s, b, a);
     }
@@ -995,7 +1000,7 @@
   /** @section Списки цветов */
     static listFromRGBA(...array) {
       let r, g, b, a;
-      return Array.from({length: array.length}, function(_, index) {
+      return Array.from({ length: array.length }, function(_, index) {
         index *= 4;
         r = array[index];
         g = array[index + 1];
@@ -1011,8 +1016,8 @@
     * @return {array} {...Color}
     */
     static listFromImage(image, size = Vector.from(image.width, image.height)) {
-      const canvas = new Canvas().view(size),
-            pixels = canvas.image(image).pixels();
+      const canvas = new Canvas().view(size);
+            const pixels = canvas.image(image).pixels();
       return Color.listFromRGBA(...pixels.data);
     }
 
@@ -1074,28 +1079,28 @@
 
 /** */
   function getColorFromArray4(arr, options = {}) {
-    const bytesPerPixel = 4, arrLength = arr.length;
-    const len = arrLength - arrLength % bytesPerPixel,
-          preparedStep = (options.step || 1) * bytesPerPixel,
-          algorithm = sqrtAlgorithm;
+    const bytesPerPixel = 4; const arrLength = arr.length;
+    const len = arrLength - arrLength % bytesPerPixel;
+          const preparedStep = (options.step || 1) * bytesPerPixel;
+          const algorithm = sqrtAlgorithm;
     return algorithm(arr, len, preparedStep);
   }
 
 /** */
   function sqrtAlgorithm(arr, len, preparedStep) {
     let
-        redTotal = 0,
-        greenTotal = 0,
-        blueTotal = 0,
-        alphaTotal = 0,
-        count = 0;
+        redTotal = 0;
+        let greenTotal = 0;
+        let blueTotal = 0;
+        let alphaTotal = 0;
+        let count = 0;
 
     for (let i = 0; i < len; i += preparedStep) {
         const
-            red = arr[i],
-            green = arr[i + 1],
-            blue = arr[i + 2],
-            alpha = arr[i + 3];
+            red = arr[i];
+            const green = arr[i + 1];
+            const blue = arr[i + 2];
+            const alpha = arr[i + 3];
 
         redTotal += red * red * alpha;
         greenTotal += green * green * alpha;
@@ -1117,9 +1122,9 @@
 /** */
   function prepareResult(value) {
     const
-        rgb = value.slice(0, 3),
-        rgba = [].concat(rgb, value[3] / 255),
-        isDark = Color.isDark(value);
+        rgb = value.slice(0, 3);
+        const rgba = [].concat(rgb, value[3] / 255);
+        const isDark = Color.isDark(value);
 
     return {
         value,

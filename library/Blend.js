@@ -22,7 +22,7 @@
 
   /** */
     static softlight(a, b) {
-      let d = 1, e = a;
+      let d = 1; let e = a;
       if (b > 0.5) {
         e = 1;
         d = a > 0.25
