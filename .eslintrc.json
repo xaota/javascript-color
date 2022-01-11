@@ -2,14 +2,11 @@
   "env": {
     "browser": true,
     "node": true,
-    "es2021": true
+    "es2021": true,
+    "es6": true
   },
-  "extends": [
-    "standard"
-  ],
-  "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 12,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "rules": {
